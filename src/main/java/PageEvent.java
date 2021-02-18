@@ -7,16 +7,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class PageEvent extends PdfPageEventHelper {
-    private Image image;
+    private Image logo;
     private int pageNum;
 
-    public PageEvent(String imagename) {
+    public PageEvent(String logoName) {
         try {
-            Path path = Paths.get(getClass().getClassLoader().getResource(imagename).toURI());
-            image = Image.getInstance(path.toAbsolutePath().toString());
-            image.scalePercent(70);
-            image.setSpacingAfter(50f);
-            image.setSpacingBefore(50f);
+            Path path = Paths.get(getClass().getClassLoader().getResource(logoName).toURI());
+            logo = Image.getInstance(path.toAbsolutePath().toString());
+            logo.scalePercent(70);
+            logo.setSpacingAfter(50f);
+            logo.setSpacingBefore(50f);
             pageNum = 1;
         }catch(Exception e){
             e.printStackTrace();
@@ -26,7 +26,7 @@ public class PageEvent extends PdfPageEventHelper {
     @Override
     public void onStartPage(PdfWriter writer, Document document) {
         try {
-            document.add(image);
+            document.add(logo);
             PdfPTable table = new PdfPTable(2);
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
