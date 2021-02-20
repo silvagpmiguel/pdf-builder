@@ -4,6 +4,9 @@
 *.project
 *.settings/
 
+# IDE
+*.idea
+
 # Log file
 *.log
 
