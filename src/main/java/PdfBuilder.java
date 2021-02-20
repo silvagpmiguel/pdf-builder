@@ -1,5 +1,6 @@
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
@@ -12,87 +13,99 @@ public class PdfBuilder {
     private Document document;
     private PdfWriter pdfWriter;
     private ByteArrayOutputStream outputStream;
-    private PageEvent pageEvent;
+    private PdfPageEventHelper pageEvent;
 
-    public PdfBuilder(){
-        document = new Document(PageSize.A4, 10f, 10f, 15f, 30f);
+    public PdfBuilder() {
+        this(new DocumentStyle());
+    }
+
+    public PdfBuilder(DocumentStyle documentStyle) {
+        document = documentStyle.buildDocumentWithStyles();
         try {
             outputStream = new ByteArrayOutputStream();
             pdfWriter = PdfWriter.getInstance(document, outputStream);
-            pageEvent = new PageEvent("logo_pdf.png");
-            pdfWriter.setPageEvent(pageEvent);
-            document.open();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public PdfBuilder(Rectangle pageSize, float marginLeft, float marginRight, float marginTop, float marginBottom, String nameLogo){
-        final Rectangle PAGE_SIZE = pageSize == null ? PageSize.A4 : pageSize;
-        document = new Document(PAGE_SIZE, marginLeft, marginRight, marginTop, marginBottom);
+    public static Element buildImage(String name, Integer scalePercent) {
+        Image image = null;
         try {
-            outputStream = new ByteArrayOutputStream();
-            pdfWriter = PdfWriter.getInstance(document, outputStream);
-            document.open();
-            pageEvent = new PageEvent(nameLogo);
-            pdfWriter.setPageEvent(pageEvent);
-        }catch(Exception e){
+            Path path = Paths.get(PdfBuilder.class.getClassLoader().getResource(name).toURI());
+            image = Image.getInstance(path.toAbsolutePath().toString());
+            if (scalePercent != null)
+                image.scalePercent(scalePercent);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return image;
     }
 
-    public void addImage(String name, Integer scalePercent){
+    public static Element buildTable(List<List<String>> data, int numRowsHeader, TableStyle tableStyle,
+            CellStyle headerStyle, CellStyle bodyStyle) {
+        final int COL_NUM = data.get(0).size();
+        PdfPTable table = tableStyle.buildTableWithStyles(COL_NUM);
+        buildTableRows(table, data, 0, numRowsHeader, headerStyle);
+        buildTableRows(table, data, numRowsHeader, data.size(), bodyStyle);
+        return table;
+    }
+
+    public PdfBuilder addElement(Element element) {
         try {
-            Path path = Paths.get(getClass().getClassLoader().getResource(name).toURI());
-            Image img = Image.getInstance(path.toAbsolutePath().toString());
-            if(scalePercent != null)
-                img.scalePercent(scalePercent);
-            document.add(img);
-        }catch(Exception e){
+            document.add(element);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return this;
     }
 
-    public void addTable(List<List<String>> data, int numRowsHeader, Float spacingBefore, Float spacingAfter, CellStyle headerStyle, CellStyle bodyStyle){
-        final int NUM_COLS = data.get(0).size();
-        PdfPTable table = new PdfPTable(NUM_COLS);
-        if(spacingBefore != null)
-            table.setSpacingBefore(spacingBefore);
-        if(spacingAfter != null)
-            table.setSpacingAfter(spacingAfter);
-        addTableRows(table, data, 0, numRowsHeader, headerStyle);
-        addTableRows(table, data, numRowsHeader, data.size(), bodyStyle);
-        try{
-            document.add(table);
-        }catch(Exception e){
-            e.printStackTrace();
+    public static void buildTableRows(PdfPTable table, List<List<String>> rows, int from, int to, CellStyle cellStyle) {
+        for (int i = from; i < to; i++) {
+            buildTableRow(table, rows.get(i), cellStyle);
         }
     }
 
-    public void addTableRows(PdfPTable table, List<List<String>> rows, int from, int to, CellStyle cellStyle){
-        for(int i = from; i < to; i++){
-            addTableRow(table, rows.get(i), cellStyle);
-        }
-    }
-
-    public void addTableRow(PdfPTable table, List<String> row, CellStyle cellStyle){
-        for(String text : row){
+    public static void buildTableRow(PdfPTable table, List<String> row, CellStyle cellStyle) {
+        for (String text : row) {
             table.addCell(cellStyle.buildCellWithStyles(text));
         }
     }
 
-    public void closeDocument(){
-        document.close();
+    public PdfPageEventHelper getPageEvent() {
+        return pageEvent;
     }
 
-    public byte[] getBytes(){
+    public PdfBuilder setPageEvent(PdfPageEventHelper pageEvent) {
+        this.pageEvent = pageEvent;
+        this.pdfWriter.setPageEvent(pageEvent);
+        return this;
+    }
+
+    public PdfBuilder open() {
+        document.open();
+        return this;
+    }
+
+    public PdfBuilder close() {
+        try {
+            outputStream.close();
+            pdfWriter.close();
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+    public byte[] getPdfData() {
         return outputStream.toByteArray();
     }
 
-    public void generatePdf(String filename){
+    public void generatePdf(String filename) {
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             fos.write(outputStream.toByteArray());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

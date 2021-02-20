@@ -8,33 +8,25 @@ public class CellStyle {
     private Float borderWidth;
     private BaseColor borderColor;
     private Integer border;
-    private Float padding;
     private Integer alignment;
-    private Font.FontFamily family;
+    private Float padding;
+    private Font.FontFamily fontFamily;
     private Float fontSize;
     private Integer fontStyle;
 
-    public CellStyle(){
-        backgroundColor = null;
-        borderColor = null;
-        border = null;
-        borderWidth = null;
-        padding = null;
-        alignment = null;
-        family = Font.FontFamily.HELVETICA;
-        fontSize = 12f;
-        fontStyle = Font.NORMAL;
-    }
+    public CellStyle(){}
 
-    public CellStyle(BaseColor backgroundColor, Integer border, BaseColor borderColor, Float borderWidth, Float padding, Font.FontFamily family, Float fontSize, Integer fontStyle){
+    public CellStyle(BaseColor backgroundColor, Integer border, BaseColor borderColor, Float borderWidth,
+            Integer alignment, Float padding, Font.FontFamily family, Float fontSize, Integer fontStyle) {
         this.backgroundColor = backgroundColor;
         this.border = border;
         this.borderColor = borderColor;
         this.borderWidth = borderWidth;
+        this.alignment = alignment;
         this.padding = padding;
-        this.family = family == null ? Font.FontFamily.HELVETICA : family;
-        this.fontSize = fontSize == null ? 12f : fontSize;
-        this.fontStyle = fontStyle == null ? Font.NORMAL : fontStyle;
+        this.fontFamily = family;
+        this.fontSize = fontSize;
+        this.fontStyle = fontStyle;
     }
 
     public BaseColor getBackgroundColor() {
@@ -45,9 +37,13 @@ public class CellStyle {
         this.backgroundColor = backgroundColor;
     }
 
-    public Integer getBorder() { return border; }
+    public Integer getBorder() {
+        return border;
+    }
 
-    public void setBorder(Integer border) { this.border = border;}
+    public void setBorder(Integer border) {
+        this.border = border;
+    }
 
     public Float getBorderWidth() {
         return borderWidth;
@@ -65,14 +61,6 @@ public class CellStyle {
         this.borderColor = borderColor;
     }
 
-    public Float getPadding() {
-        return padding;
-    }
-
-    public void setPadding(Float padding) {
-        this.padding = padding;
-    }
-
     public Integer getAlignment() {
         return alignment;
     }
@@ -81,12 +69,20 @@ public class CellStyle {
         this.alignment = alignment;
     }
 
-    public Font.FontFamily getFamily() {
-        return family;
+    public Float getPadding() {
+        return padding;
     }
 
-    public void setFamily(Font.FontFamily family) {
-        this.family = family;
+    public void setPadding(Float padding) {
+        this.padding = padding;
+    }
+
+    public Font.FontFamily getFontFamily() {
+        return fontFamily;
+    }
+
+    public void setFontFamily(Font.FontFamily family) {
+        this.fontFamily = family;
     }
 
     public Float getFontSize() {
@@ -105,21 +101,28 @@ public class CellStyle {
         this.fontStyle = fontStyle;
     }
 
-    public PdfPCell buildCellWithStyles(String text){
+    public PdfPCell buildCellWithStyles(String text) {
         PdfPCell cell = new PdfPCell();
-        if(backgroundColor != null)
+        Font font = new Font();
+        if (backgroundColor != null)
             cell.setBackgroundColor(this.backgroundColor);
-        if(border != null)
+        if (border != null)
             cell.setBorder(border);
-        if(borderWidth != null)
+        if (borderWidth != null)
             cell.setBorderWidth(borderWidth);
-        if(borderColor != null)
+        if (borderColor != null)
             cell.setBorderColor(borderColor);
-        if(padding != null)
+        if (padding != null)
             cell.setPadding(padding);
-        if(alignment != null)
+        if (alignment != null)
             cell.setVerticalAlignment(alignment);
-        cell.setPhrase(new Phrase(text, new Font(Font.FontFamily.HELVETICA, fontSize, fontStyle)));
+        if(fontFamily != null)
+            font.setFamily(fontFamily.toString());
+        if(fontSize != null)
+            font.setSize(fontSize);
+        if(fontStyle != null)
+            font.setStyle(fontStyle);
+        cell.setPhrase(new Phrase(text, font));
         return cell;
     }
 }
