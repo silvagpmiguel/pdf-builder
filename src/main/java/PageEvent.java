@@ -1,4 +1,7 @@
-import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,11 +21,11 @@ public class PageEvent extends PdfPageEventHelper {
     public void onStartPage(PdfWriter writer, Document document) {
         try {
             document.add(logo);
-            PdfPTable table = new PdfPTable(new float[]{90, 10});
+            PdfPTable table = new PdfPTable(new float[] { 90, 10 });
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
-            table.addCell(new CellStyle().buildCellWithStyles(title));
-            table.addCell(new CellStyle().buildCellWithStyles("Page "+(pageNum++)));
+            table.addCell(new Phrase(title));
+            table.addCell(new Phrase("Page " + (pageNum++)));
             document.add(table);
         } catch (DocumentException e) {
             e.printStackTrace();
