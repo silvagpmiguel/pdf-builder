@@ -21,7 +21,7 @@ public class PageEvent extends PdfPageEventHelper {
     public void onStartPage(PdfWriter writer, Document document) {
         try {
             document.add(logo);
-            PdfPTable table = new PdfPTable(new float[] { 90, 10 });
+            PdfPTable table = new PdfPTable(new float[] { 85, 15 });
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
             table.addCell(new Phrase(title));
