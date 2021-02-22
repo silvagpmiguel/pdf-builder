@@ -10,11 +10,19 @@ public class PageEvent extends PdfPageEventHelper {
     private Element logo;
     private String title;
     private int pageNum;
+    private int totalPages;
 
     public PageEvent(Element logo, String title) {
         this.logo = logo;
         this.title = title;
         this.pageNum = 1;
+    }
+
+    public PageEvent(Element logo, String title, int totalPages) {
+        this.logo = logo;
+        this.title = title;
+        this.pageNum = 1;
+        this.totalPages = totalPages;
     }
 
     @Override
@@ -25,7 +33,12 @@ public class PageEvent extends PdfPageEventHelper {
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
             table.addCell(new Phrase(title));
-            table.addCell(new Phrase("Page " + (pageNum++)));
+            if (totalPages == 0) {
+                table.addCell(new Phrase("Page " + pageNum));
+            } else {
+                table.addCell(new Phrase("Page " + pageNum + "/" + totalPages));
+            }
+            pageNum++;
             document.add(table);
         } catch (DocumentException e) {
             e.printStackTrace();

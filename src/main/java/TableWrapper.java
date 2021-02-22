@@ -28,12 +28,14 @@ public class TableWrapper extends PdfPTable {
     public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont) {
         this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, 0, new PdfPCell());
     }
-    
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell) {
+
+    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows,
+            PdfPCell footerCell) {
         this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, new Font());
     }
 
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell, Font footerFont) {
+    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows,
+            PdfPCell footerCell, Font footerFont) {
         this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, footerFont);
     }
 

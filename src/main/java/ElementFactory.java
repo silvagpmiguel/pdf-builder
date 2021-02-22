@@ -8,7 +8,6 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 
 public class ElementFactory {
-    /** Methods **/
     /* Font Methods */
     public static FontWrapper newFont() {
         return new FontWrapper();
@@ -95,15 +94,20 @@ public class ElementFactory {
     }
 
     public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, 0, new PdfPCell());
-    }
-    
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, new Font());
+        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, 0,
+                new PdfPCell());
     }
 
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell, Font footerFont) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, footerFont);
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont,
+            int footerRows, PdfPCell footerCell) {
+        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows,
+                footerCell, new Font());
+    }
+
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont,
+            int footerRows, PdfPCell footerCell, Font footerFont) {
+        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows,
+                footerCell, footerFont);
     }
 
     public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell) {

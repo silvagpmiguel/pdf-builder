@@ -12,23 +12,29 @@ public class Main {
         List<String> footer = Arrays.asList(new String[] { "FOOTER 1", "FOOTER 2", "FOOTER 3" });
         List<List<String>> table = new ArrayList<>();
         table.add(header);
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 120; i++)
             table.add(row);
         table.add(footer);
-
-        CellWrapper headerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.LIGHT_GRAY).withHorizontalAlign(Element.ALIGN_CENTER);
+        ImageWrapper logo = ElementFactory.newImage("img/logo.png", 70f);
+        String title = "PageEvent with currentPage/totalPages in every pdf page";
+        CellWrapper headerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.LIGHT_GRAY)
+                .withHorizontalAlign(Element.ALIGN_CENTER);
         FontWrapper headerFont = ElementFactory.newFont().withSize(14f);
         CellWrapper bodyStyle = ElementFactory.newCell().withPadding(5);
         FontWrapper bodyFont = ElementFactory.newFont();
-        CellWrapper footerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.CYAN).withHorizontalAlign(Element.ALIGN_CENTER);
+        CellWrapper footerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.CYAN)
+                .withHorizontalAlign(Element.ALIGN_CENTER);
         FontWrapper footerFont = ElementFactory.newFont().withSize(14f);
-
-        new PdfBuilder()
-            .setPageEvent(new PageEvent(ElementFactory.newImage("img/logo.png", 70f),"PageEvent + Table Example with ElementFactory and PdfBuilder"))
+        PageEvent pageEvent = new PageEvent(logo, title);
+        PdfBuilder pdfBuilder = new PdfBuilder(pageEvent)
             .open()
-            .addElement(
-                ElementFactory.newTable(table, bodyStyle, bodyFont, 1, headerStyle, headerFont, 1, footerStyle, footerFont)
-            )
+            .addElement(ElementFactory.newTable(table, bodyStyle, bodyFont, 1, headerStyle, headerFont, 1,footerStyle, footerFont))
+            .build()
+            .close();
+        int totalPages = pdfBuilder.getPageNumber();
+        new PdfBuilder(new PageEvent(logo, title, totalPages), pdfBuilder.getElementList())
+            .open()
+            .build()
             .close()
             .generatePdf("teste.pdf");
     }

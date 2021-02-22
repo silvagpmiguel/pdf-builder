@@ -35,4 +35,8 @@ public class DocumentWrapper extends Document {
         super.setMargins(marginLeft, marginRight, marginTop, marginBottom);
         return this;
     }
+
+    public DocumentWrapper clone() {
+        return new DocumentWrapper(pageSize, marginLeft, marginRight, marginTop, marginBottom);
+    }
 }
