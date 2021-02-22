@@ -28,7 +28,7 @@ public class PdfBuilder {
     }
 
     public PdfBuilder(DocumentWrapper document, PdfPageEventHelper pageEvent) {
-        this(document, pageEvent, new ArrayList<>());
+        this(document, pageEvent, new ArrayList<Element>());
     }
     
     public PdfBuilder(PdfPageEventHelper pageEvent, List<Element> elementList) {

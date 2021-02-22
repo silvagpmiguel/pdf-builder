@@ -85,6 +85,14 @@ public class ElementFactory {
     }
 
     /* PdfPTable Methods */
+    public static TableWrapper newTable(int cols){
+        return new TableWrapper(cols);
+    }
+
+    public static TableWrapper newTable(float[] widths){
+        return new TableWrapper(widths);
+    }
+
     public static TableWrapper newTable(List<List<String>> data) {
         return new TableWrapper(data);
     }

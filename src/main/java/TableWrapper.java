@@ -17,6 +17,14 @@ public class TableWrapper extends PdfPTable {
     private PdfPCell footerCell;
     private Font footerFont;
 
+    public TableWrapper(int cols){
+        super(cols);
+    }
+
+    public TableWrapper(float[] widths){
+        super(widths);
+    }
+
     public TableWrapper(List<List<String>> data) {
         this(data, new PdfPCell());
     }
@@ -118,6 +126,44 @@ public class TableWrapper extends PdfPTable {
 
     public TableWrapper withSplitRows(boolean splitRows) {
         super.setSplitRows(splitRows);
+        return this;
+    }
+
+    public TableWrapper addTextCell(String text){
+        return addTextCell(text, new PdfPCell(), new Font());
+    }
+
+    public TableWrapper addTextCell(String text, PdfPCell cell){
+        return addTextCell(text, cell, new Font());
+    }
+
+    public TableWrapper addTextCell(String text, Font font){
+        return addTextCell(text, new CellWrapper(), font);
+    }
+
+    public TableWrapper addTextCell(String text, PdfPCell cell, Font font){
+        cell.setPhrase(new Phrase(text, font));
+        addCell(cell);
+        return this;
+    }
+
+    public TableWrapper addTextRow(List<String> row){
+        return addTextRow(row, new CellWrapper(), new FontWrapper());
+    }
+    
+    public TableWrapper addTextRow(List<String> row, PdfPCell cell){
+        return addTextRow(row, cell, new FontWrapper());
+    }
+
+    public TableWrapper addTextRow(List<String> row, Font font){
+        return addTextRow(row, new CellWrapper(), font);
+    }
+
+    public TableWrapper addTextRow(List<String> row, PdfPCell cell, Font font){
+        for(String text : row){
+            cell.setPhrase(new Phrase(text, font));
+            addCell(cell);
+        }
         return this;
     }
 
