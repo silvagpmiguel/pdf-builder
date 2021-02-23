@@ -60,12 +60,12 @@ public class CellWrapper extends PdfPCell {
         return this;
     }
 
-    public CellWrapper withCellBorderColor(BaseColor borderColor) {
+    public CellWrapper withBorderColor(BaseColor borderColor) {
         super.setBorderColor(borderColor);
         return this;
     }
 
-    public CellWrapper withCellBorder(int border) {
+    public CellWrapper withBorder(int border) {
         super.setBorder(border);
         return this;
     }

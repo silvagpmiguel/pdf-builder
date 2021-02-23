@@ -84,7 +84,12 @@ public class TableWrapper extends PdfPTable {
         this.footerFont = footerFont;
         fillTable();
     }
-
+    
+    public TableWrapper withLockedWith(boolean isLocked){
+    	super.setLockedWidth(isLocked);
+    	return this;
+    }
+    
     public TableWrapper withSpacingBefore(float spacingBefore) {
         super.setSpacingBefore(spacingBefore);
         return this;
@@ -129,6 +134,7 @@ public class TableWrapper extends PdfPTable {
         return this;
     }
 
+
     public TableWrapper addTextCell(String text){
         return addTextCell(text, new PdfPCell(), new Font());
     }
@@ -143,7 +149,7 @@ public class TableWrapper extends PdfPTable {
 
     public TableWrapper addTextCell(String text, PdfPCell cell, Font font){
         cell.setPhrase(new Phrase(text, font));
-        addCell(cell);
+        super.addCell(cell);
         return this;
     }
 
@@ -162,7 +168,7 @@ public class TableWrapper extends PdfPTable {
     public TableWrapper addTextRow(List<String> row, PdfPCell cell, Font font){
         for(String text : row){
             cell.setPhrase(new Phrase(text, font));
-            addCell(cell);
+            super.addCell(cell);
         }
         return this;
     }
@@ -174,21 +180,21 @@ public class TableWrapper extends PdfPTable {
         for (int i = 0; i < headerRows; i++) {
             for (String text : data.get(i)) {
                 headerCell.setPhrase(new Phrase(text, headerFont));
-                addCell(headerCell);
+                super.addCell(headerCell);
             }
         }
 
         for (int i = headerRows; i < FOOTER_START; i++) {
             for (String text : data.get(i)) {
                 bodyCell.setPhrase(new Phrase(text, bodyFont));
-                addCell(bodyCell);
+                super.addCell(bodyCell);
             }
         }
 
         for (int i = FOOTER_START; i < TABLE_SIZE; i++) {
             for (String text : data.get(i)) {
                 footerCell.setPhrase(new Phrase(text, footerFont));
-                addCell(footerCell);
+                super.addCell(footerCell);
             }
         }
     }

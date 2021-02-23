@@ -1,7 +1,6 @@
 import java.util.List;
 
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
@@ -148,19 +147,19 @@ public class ElementFactory {
     }
 
     /* Document Methods */
-    public static Document newDocument() {
+    public static DocumentWrapper newDocument() {
         return new DocumentWrapper();
     }
 
-    public static Document newDocument(Rectangle pageSize) {
+    public static DocumentWrapper newDocument(Rectangle pageSize) {
         return new DocumentWrapper(pageSize);
     }
 
-    public static Document newDocument(float marginLeft, float marginRight, float marginTop, float marginBottom) {
+    public static DocumentWrapper newDocument(float marginLeft, float marginRight, float marginTop, float marginBottom) {
         return new DocumentWrapper(marginLeft, marginRight, marginTop, marginBottom);
     }
 
-    public static Document newDocument(Rectangle pageSize, float marginLeft, float marginRight, float marginTop,
+    public static DocumentWrapper newDocument(Rectangle pageSize, float marginLeft, float marginRight, float marginTop,
             float marginBottom) {
         return new DocumentWrapper(pageSize, marginLeft, marginRight, marginTop, marginBottom);
     }
