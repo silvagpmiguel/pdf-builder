@@ -22,21 +22,17 @@ public class DocumentWrapper extends Document {
     }
 
     public DocumentWrapper addNewPage() {
-        super.newPage();
+        newPage();
         return this;
     }
 
     public DocumentWrapper withPageSize(Rectangle pageSize) {
-        super.setPageSize(pageSize);
+        setPageSize(pageSize);
         return this;
     }
 
     public DocumentWrapper withMargins(float marginLeft, float marginRight, float marginTop, float marginBottom) {
-        super.setMargins(marginLeft, marginRight, marginTop, marginBottom);
+        setMargins(marginLeft, marginRight, marginTop, marginBottom);
         return this;
-    }
-
-    public DocumentWrapper clone() {
-        return new DocumentWrapper(pageSize, marginLeft, marginRight, marginTop, marginBottom);
     }
 }

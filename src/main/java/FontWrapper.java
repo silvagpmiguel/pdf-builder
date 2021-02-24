@@ -3,27 +3,27 @@ import com.itextpdf.text.Font;
 
 public class FontWrapper extends Font {
     public FontWrapper() {
-        super();
+        this(Font.FontFamily.UNDEFINED);
     }
 
     public FontWrapper(Font.FontFamily family) {
-        super(family);
+        this(family, DEFAULTSIZE);
     }
 
     public FontWrapper(float size) {
-        super(Font.FontFamily.HELVETICA, size);
+        this(size, Font.NORMAL);
     }
 
     public FontWrapper(float size, int style) {
-        super(Font.FontFamily.HELVETICA, size, style);
+        this(Font.FontFamily.UNDEFINED, size, style);
     }
 
     public FontWrapper(Font.FontFamily family, float size) {
-        super(family, size);
+        this(family, size, Font.NORMAL);
     }
 
     public FontWrapper(Font.FontFamily family, float size, int style) {
-        super(family, size, style);
+        this(family, size, style, BaseColor.BLACK);
     }
 
     public FontWrapper(Font.FontFamily family, float size, int style, BaseColor color) {
@@ -31,38 +31,37 @@ public class FontWrapper extends Font {
     }
 
     public FontWrapper withFamily(Font.FontFamily family) {
-        super.setFamily(family.toString());
+        setFamily(family.toString());
         return this;
     }
 
     public FontWrapper withSize(float size) {
-        super.setSize(size);
+        setSize(size);
         return this;
     }
 
     public FontWrapper withStyle(int style) {
-        super.setStyle(style);
+        setStyle(style);
         return this;
     }
 
-    
     public FontWrapper withColor(BaseColor color) {
-        super.setColor(color);
+        setColor(color);
         return this;
     }
 
-    public FontWrapper withBoldStyle(){
-        super.setStyle(Font.BOLD);
+    public FontWrapper withBoldStyle() {
+        setStyle(Font.BOLD);
         return this;
     }
 
-    public FontWrapper withItalicStyle(){
-        super.setStyle(Font.ITALIC);
+    public FontWrapper withItalicStyle() {
+        setStyle(Font.ITALIC);
         return this;
     }
 
-    public FontWrapper withBoldItalicStyle(){
-        super.setStyle(Font.BOLDITALIC);
+    public FontWrapper withBoldItalicStyle() {
+        setStyle(Font.BOLDITALIC);
         return this;
     }
 }

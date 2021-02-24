@@ -25,13 +25,13 @@ public class Main {
         CellWrapper footerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.CYAN)
                 .withHorizontalAlign(Element.ALIGN_CENTER);
         FontWrapper footerFont = ElementFactory.newFont().withSize(14f);
-        PdfBuilder pdfBuilder = new PdfBuilder(logo, title)
+        PdfBuilder pdfBuilder = new PdfBuilder(new PageEvent(logo, title))
             .open()
             .addElement(ElementFactory.newTable(table, bodyStyle, bodyFont, 1, headerStyle, headerFont, 1,footerStyle, footerFont))
             .build()
             .close();
         int totalPages = pdfBuilder.getPageNumber();
-        new PdfBuilder(pdfBuilder.getElementList(), logo, title, totalPages)
+        new PdfBuilder(new PageEvent(logo, title, totalPages), pdfBuilder.getElementList())
             .open()
             .build()
             .close()

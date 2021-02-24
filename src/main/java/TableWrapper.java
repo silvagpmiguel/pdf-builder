@@ -6,7 +6,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
-public class TableWrapper extends PdfPTable {
+public class TableWrapper extends PdfPTable implements ElementWrapper {
     private List<List<String>> data;
     private PdfPCell bodyCell;
     private Font bodyFont;
@@ -16,12 +16,13 @@ public class TableWrapper extends PdfPTable {
     private int footerRows;
     private PdfPCell footerCell;
     private Font footerFont;
+    private boolean needPageBreak;
 
-    public TableWrapper(int cols){
+    public TableWrapper(int cols) {
         super(cols);
     }
 
-    public TableWrapper(float[] widths){
+    public TableWrapper(float[] widths) {
         super(widths);
     }
 
@@ -33,18 +34,53 @@ public class TableWrapper extends PdfPTable {
         this(data, new PdfPCell(), new Font(), headerRows, headerCell, new Font());
     }
 
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont) {
-        this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, 0, new PdfPCell());
+    public TableWrapper(List<List<String>> data,
+            int headerRows,
+            PdfPCell headerCell,
+            Font headerFont) {
+        this(data,
+                new PdfPCell(),
+                new Font(),
+                headerRows,
+                headerCell,
+                headerFont,
+                0,
+                new PdfPCell());
     }
 
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows,
+    public TableWrapper(List<List<String>> data,
+            int headerRows,
+            PdfPCell headerCell,
+            Font headerFont,
+            int footerRows,
             PdfPCell footerCell) {
-        this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, new Font());
+        this(data,
+                new PdfPCell(),
+                new Font(),
+                headerRows,
+                headerCell,
+                headerFont,
+                footerRows,
+                footerCell,
+                new Font());
     }
 
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont, int footerRows,
-            PdfPCell footerCell, Font footerFont) {
-        this(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows, footerCell, footerFont);
+    public TableWrapper(List<List<String>> data,
+            int headerRows,
+            PdfPCell headerCell,
+            Font headerFont,
+            int footerRows,
+            PdfPCell footerCell,
+            Font footerFont) {
+        this(data,
+                new PdfPCell(),
+                new Font(),
+                headerRows,
+                headerCell,
+                headerFont,
+                footerRows,
+                footerCell,
+                footerFont);
     }
 
     public TableWrapper(List<List<String>> data, PdfPCell bodyCell) {
@@ -55,23 +91,51 @@ public class TableWrapper extends PdfPTable {
         this(data, bodyCell, bodyFont, 0, new PdfPCell());
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows,
+    public TableWrapper(List<List<String>> data,
+            PdfPCell bodyCell,
+            Font bodyFont,
+            int headerRows,
             PdfPCell headerCell) {
         this(data, bodyCell, bodyFont, headerRows, headerCell, new Font());
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows, PdfPCell headerCell,
+    public TableWrapper(List<List<String>> data,
+            PdfPCell bodyCell,
+            Font bodyFont,
+            int headerRows,
+            PdfPCell headerCell,
             Font headerFont) {
         this(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, 0, new PdfPCell());
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows, PdfPCell headerCell,
-            Font headerFont, int footerRows, PdfPCell footerCell) {
-        this(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, footerRows, footerCell, new Font());
+    public TableWrapper(List<List<String>> data,
+            PdfPCell bodyCell,
+            Font bodyFont,
+            int headerRows,
+            PdfPCell headerCell,
+            Font headerFont,
+            int footerRows,
+            PdfPCell footerCell) {
+        this(data,
+                bodyCell,
+                bodyFont,
+                headerRows,
+                headerCell,
+                headerFont,
+                footerRows,
+                footerCell,
+                new Font());
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows, PdfPCell headerCell,
-            Font headerFont, int footerRows, PdfPCell footerCell, Font footerFont) {
+    public TableWrapper(List<List<String>> data,
+            PdfPCell bodyCell,
+            Font bodyFont,
+            int headerRows,
+            PdfPCell headerCell,
+            Font headerFont,
+            int footerRows,
+            PdfPCell footerCell,
+            Font footerFont) {
         super(data.get(0).size());
         this.data = data;
         this.bodyCell = bodyCell;
@@ -84,35 +148,35 @@ public class TableWrapper extends PdfPTable {
         this.footerFont = footerFont;
         fillTable();
     }
-    
-    public TableWrapper withLockedWith(boolean isLocked){
-    	super.setLockedWidth(isLocked);
-    	return this;
+
+    public TableWrapper withLockedWith(boolean isLocked) {
+        setLockedWidth(isLocked);
+        return this;
     }
-    
+
     public TableWrapper withSpacingBefore(float spacingBefore) {
-        super.setSpacingBefore(spacingBefore);
+        setSpacingBefore(spacingBefore);
         return this;
     }
 
     public TableWrapper withSpacingAfter(float spacingAfter) {
-        super.setSpacingAfter(spacingAfter);
+        setSpacingAfter(spacingAfter);
         return this;
     }
 
     public TableWrapper withTotalWidth(float totalWidth) {
-        super.setTotalWidth(totalWidth);
+        setTotalWidth(totalWidth);
         return this;
     }
 
     public TableWrapper withWidthPercentage(float widthPercentage) {
-        super.setWidthPercentage(widthPercentage);
+        setWidthPercentage(widthPercentage);
         return this;
     }
 
     public TableWrapper withWidths(float[] widths) {
         try {
-            super.setWidths(widths);
+            setWidths(widths);
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -120,59 +184,75 @@ public class TableWrapper extends PdfPTable {
     }
 
     public TableWrapper withHorizontalAlignment(int horizontalAlignment) {
-        super.setHorizontalAlignment(horizontalAlignment);
+        setHorizontalAlignment(horizontalAlignment);
         return this;
     }
 
     public TableWrapper withSplitLate(boolean splitLate) {
-        super.setSplitLate(splitLate);
+        setSplitLate(splitLate);
         return this;
     }
 
     public TableWrapper withSplitRows(boolean splitRows) {
-        super.setSplitRows(splitRows);
+        setSplitRows(splitRows);
         return this;
     }
 
+    public TableWrapper withPageBreak() {
+        needPageBreak = true;
+        return this;
+    }
 
-    public TableWrapper addTextCell(String text){
+    public TableWrapper addTextCell(String text) {
         return addTextCell(text, new PdfPCell(), new Font());
     }
 
-    public TableWrapper addTextCell(String text, PdfPCell cell){
+    public TableWrapper addTextCell(String text, PdfPCell cell) {
         return addTextCell(text, cell, new Font());
     }
 
-    public TableWrapper addTextCell(String text, Font font){
+    public TableWrapper addTextCell(String text, Font font) {
         return addTextCell(text, new CellWrapper(), font);
     }
 
-    public TableWrapper addTextCell(String text, PdfPCell cell, Font font){
+    public TableWrapper addTextCell(String text, PdfPCell cell, Font font) {
         cell.setPhrase(new Phrase(text, font));
-        super.addCell(cell);
+        addCell(cell);
         return this;
     }
 
-    public TableWrapper addTextRow(List<String> row){
+    public TableWrapper addTextRow(List<String> row) {
         return addTextRow(row, new CellWrapper(), new FontWrapper());
     }
-    
-    public TableWrapper addTextRow(List<String> row, PdfPCell cell){
+
+    public TableWrapper addTextRow(List<String> row, PdfPCell cell) {
         return addTextRow(row, cell, new FontWrapper());
     }
 
-    public TableWrapper addTextRow(List<String> row, Font font){
+    public TableWrapper addTextRow(List<String> row, Font font) {
         return addTextRow(row, new CellWrapper(), font);
     }
 
-    public TableWrapper addTextRow(List<String> row, PdfPCell cell, Font font){
-        for(String text : row){
-            cell.setPhrase(new Phrase(text, font));
-            super.addCell(cell);
+    public TableWrapper addTextRow(List<String> row, PdfPCell cell, Font font) {
+        for (String text : row) {
+            addTextCell(text, cell, font);
         }
         return this;
     }
 
+    public TableWrapper
+            addTextRow(List<String> rowText, List<PdfPCell> rowCellStyle, List<Font> rowFontStyle) {
+        for (int i = 0; i < rowText.size(); i++) {
+            addTextCell(rowText.get(i), rowCellStyle.get(i), rowFontStyle.get(i));
+        }
+        return this;
+    }
+
+    @Override
+    public boolean needPageBreak() {
+        return needPageBreak;
+    }
+    
     private void fillTable() {
         final int TABLE_SIZE = data.size();
         final int FOOTER_START = TABLE_SIZE - footerRows;
@@ -180,21 +260,21 @@ public class TableWrapper extends PdfPTable {
         for (int i = 0; i < headerRows; i++) {
             for (String text : data.get(i)) {
                 headerCell.setPhrase(new Phrase(text, headerFont));
-                super.addCell(headerCell);
+                addCell(headerCell);
             }
         }
 
         for (int i = headerRows; i < FOOTER_START; i++) {
             for (String text : data.get(i)) {
                 bodyCell.setPhrase(new Phrase(text, bodyFont));
-                super.addCell(bodyCell);
+                addCell(bodyCell);
             }
         }
 
         for (int i = FOOTER_START; i < TABLE_SIZE; i++) {
             for (String text : data.get(i)) {
                 footerCell.setPhrase(new Phrase(text, footerFont));
-                super.addCell(footerCell);
+                addCell(footerCell);
             }
         }
     }

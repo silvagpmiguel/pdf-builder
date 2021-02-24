@@ -34,54 +34,54 @@ public class CellWrapper extends PdfPCell {
 
     public CellWrapper(BaseColor backgroundColor, int border, float borderWidth, BaseColor borderColor) {
         super();
-        super.setBackgroundColor(backgroundColor);
-        super.setBorder(border);
-        super.setBorderWidth(borderWidth);
-        super.setBorderColor(borderColor);
+        setBackgroundColor(backgroundColor);
+        setBorder(border);
+        setBorderWidth(borderWidth);
+        setBorderColor(borderColor);
     }
 
     public CellWrapper withPhrase(String text, Font font) {
-        super.setPhrase(new Phrase(text, font));
+        setPhrase(new Phrase(text, font));
         return this;
     }
 
     public CellWrapper withPhrase(String text, Font.FontFamily fontFamily, float fontSize, int fontStyle) {
-        super.setPhrase(new Phrase(text, new Font(fontFamily, fontSize, fontStyle)));
+        setPhrase(new Phrase(text, new Font(fontFamily, fontSize, fontStyle)));
         return this;
     }
 
     public CellWrapper withBackgroundColor(BaseColor backgroundColor) {
-        super.setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor);
         return this;
     }
 
     public CellWrapper withBorderWidth(float borderWidth) {
-        super.setBorderWidth(borderWidth);
+        setBorderWidth(borderWidth);
         return this;
     }
 
     public CellWrapper withBorderColor(BaseColor borderColor) {
-        super.setBorderColor(borderColor);
+        setBorderColor(borderColor);
         return this;
     }
 
     public CellWrapper withBorder(int border) {
-        super.setBorder(border);
+        setBorder(border);
         return this;
     }
 
     public CellWrapper withVerticalAlign(int verticalAlignment) {
-        super.setVerticalAlignment(verticalAlignment);
+        setVerticalAlignment(verticalAlignment);
         return this;
     }
 
     public CellWrapper withHorizontalAlign(int horizontalAlignment) {
-        super.setHorizontalAlignment(horizontalAlignment);
+        setHorizontalAlignment(horizontalAlignment);
         return this;
     }
 
     public CellWrapper withPadding(float padding) {
-        super.setPadding(padding);
+        setPadding(padding);
         return this;
     }
 }

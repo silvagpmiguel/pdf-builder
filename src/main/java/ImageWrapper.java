@@ -2,78 +2,94 @@ import java.nio.file.Paths;
 
 import com.itextpdf.text.Image;
 
-public class ImageWrapper extends Image {
+public class ImageWrapper extends Image implements ElementWrapper {
+    private boolean needPageBreak;
+
     public ImageWrapper(String resourcesFilepath) {
         super(ImageWrapper.getImageFromResources(resourcesFilepath));
     }
 
     public ImageWrapper(String resourcesFilepath, float scalePercent) {
         super(ImageWrapper.getImageFromResources(resourcesFilepath));
-        super.scalePercent(scalePercent);
+        scalePercent(scalePercent);
     }
 
-    public ImageWrapper(String resourcesFilepath, float scalePercent, float absoluteX, float absoluteY) {
+    public ImageWrapper(String resourcesFilepath,
+            float scalePercent,
+            float absoluteX,
+            float absoluteY) {
         super(ImageWrapper.getImageFromResources(resourcesFilepath));
-        super.scalePercent(scalePercent);
-        super.setAbsolutePosition(absoluteX, absoluteY);
+        scalePercent(scalePercent);
+        setAbsolutePosition(absoluteX, absoluteY);
     }
 
     public ImageWrapper withAbsolutePosition(float absoluteX, float absoluteY) {
-        super.setAbsolutePosition(absoluteX, absoluteY);
+        setAbsolutePosition(absoluteX, absoluteY);
         return this;
     }
 
     public ImageWrapper withAlignment(int alignment) {
-        super.setAlignment(alignment);
+        setAlignment(alignment);
         return this;
     }
 
     public ImageWrapper withAlt(String alt) {
-        super.setAlt(alt);
+        setAlt(alt);
         return this;
     }
 
     public ImageWrapper scale(float scalePercent) {
-        super.scalePercent(scalePercent);
+        scalePercent(scalePercent);
         return this;
     }
 
     public ImageWrapper scale(float scaleX, float scaleY) {
-        super.scalePercent(scaleX, scaleY);
+        scalePercent(scaleX, scaleY);
         return this;
     }
 
     public ImageWrapper withSpacingAfter(float spacing) {
-        super.setSpacingAfter(spacing);
+        setSpacingAfter(spacing);
         return this;
     }
 
     public ImageWrapper withSpacingBefore(float spacing) {
-        super.setSpacingBefore(spacing);
+        setSpacingBefore(spacing);
         return this;
     }
 
     public ImageWrapper withRotationDegrees(float alt) {
-        super.setRotationDegrees(alt);
+        setRotationDegrees(alt);
         return this;
     }
 
     public ImageWrapper fitHeight(boolean flag) {
-        super.setScaleToFitHeight(flag);
+        setScaleToFitHeight(flag);
         return this;
     }
 
     public ImageWrapper fitLineWhenOverflow(boolean flag) {
-        super.setScaleToFitLineWhenOverflow(flag);
+        setScaleToFitLineWhenOverflow(flag);
         return this;
     }
 
+    public ImageWrapper withPageBreak() {
+        needPageBreak = true;
+        return this;
+    }
+
+    @Override
+    public boolean needPageBreak() {
+        return needPageBreak;
+    }
+    
     private static Image getImageFromResources(String resourcesFilepath) {
         Image image = null;
         try {
-            image = Image
-                    .getInstance(Paths.get(PdfBuilder.class.getClassLoader().getResource(resourcesFilepath).toURI())
-                            .toAbsolutePath().toString());
+            image = Image.getInstance(Paths
+                    .get(PdfBuilder.class.getClassLoader().getResource(resourcesFilepath).toURI())
+                    .toAbsolutePath()
+                    .toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
