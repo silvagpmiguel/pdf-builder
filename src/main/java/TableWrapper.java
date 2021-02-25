@@ -1,21 +1,19 @@
 import java.util.List;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
 public class TableWrapper extends PdfPTable implements ElementWrapper {
     private List<List<String>> data;
-    private PdfPCell bodyCell;
-    private Font bodyFont;
+    private CellWrapper bodyCell;
+    private FontWrapper bodyFont;
     private int headerRows;
-    private PdfPCell headerCell;
-    private Font headerFont;
+    private CellWrapper headerCell;
+    private FontWrapper headerFont;
     private int footerRows;
-    private PdfPCell footerCell;
-    private Font footerFont;
+    private CellWrapper footerCell;
+    private FontWrapper footerFont;
     private boolean needPageBreak;
 
     public TableWrapper(int cols) {
@@ -27,54 +25,54 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
     }
 
     public TableWrapper(List<List<String>> data) {
-        this(data, new PdfPCell());
+        this(data, new CellWrapper());
     }
 
-    public TableWrapper(List<List<String>> data, int headerRows, PdfPCell headerCell) {
-        this(data, new PdfPCell(), new Font(), headerRows, headerCell, new Font());
+    public TableWrapper(List<List<String>> data, int headerRows, CellWrapper headerCell) {
+        this(data, new CellWrapper(), new FontWrapper(), headerRows, headerCell, new FontWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont) {
+            CellWrapper headerCell,
+            FontWrapper headerFont) {
         this(data,
-                new PdfPCell(),
-                new Font(),
+                new CellWrapper(),
+                new FontWrapper(),
                 headerRows,
                 headerCell,
                 headerFont,
                 0,
-                new PdfPCell());
+                new CellWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont,
+            CellWrapper headerCell,
+            FontWrapper headerFont,
             int footerRows,
-            PdfPCell footerCell) {
+            CellWrapper footerCell) {
         this(data,
-                new PdfPCell(),
-                new Font(),
+                new CellWrapper(),
+                new FontWrapper(),
                 headerRows,
                 headerCell,
                 headerFont,
                 footerRows,
                 footerCell,
-                new Font());
+                new FontWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont,
+            CellWrapper headerCell,
+            FontWrapper headerFont,
             int footerRows,
-            PdfPCell footerCell,
-            Font footerFont) {
+            CellWrapper footerCell,
+            FontWrapper footerFont) {
         this(data,
-                new PdfPCell(),
-                new Font(),
+                new CellWrapper(),
+                new FontWrapper(),
                 headerRows,
                 headerCell,
                 headerFont,
@@ -83,39 +81,39 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
                 footerFont);
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell) {
-        this(data, bodyCell, new Font());
+    public TableWrapper(List<List<String>> data, CellWrapper bodyCell) {
+        this(data, bodyCell, new FontWrapper());
     }
 
-    public TableWrapper(List<List<String>> data, PdfPCell bodyCell, Font bodyFont) {
-        this(data, bodyCell, bodyFont, 0, new PdfPCell());
-    }
-
-    public TableWrapper(List<List<String>> data,
-            PdfPCell bodyCell,
-            Font bodyFont,
-            int headerRows,
-            PdfPCell headerCell) {
-        this(data, bodyCell, bodyFont, headerRows, headerCell, new Font());
+    public TableWrapper(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont) {
+        this(data, bodyCell, bodyFont, 0, new CellWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
-            PdfPCell bodyCell,
-            Font bodyFont,
+            CellWrapper bodyCell,
+            FontWrapper bodyFont,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont) {
-        this(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, 0, new PdfPCell());
+            CellWrapper headerCell) {
+        this(data, bodyCell, bodyFont, headerRows, headerCell, new FontWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
-            PdfPCell bodyCell,
-            Font bodyFont,
+            CellWrapper bodyCell,
+            FontWrapper bodyFont,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont,
+            CellWrapper headerCell,
+            FontWrapper headerFont) {
+        this(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, 0, new CellWrapper());
+    }
+
+    public TableWrapper(List<List<String>> data,
+            CellWrapper bodyCell,
+            FontWrapper bodyFont,
+            int headerRows,
+            CellWrapper headerCell,
+            FontWrapper headerFont,
             int footerRows,
-            PdfPCell footerCell) {
+            CellWrapper footerCell) {
         this(data,
                 bodyCell,
                 bodyFont,
@@ -124,18 +122,18 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
                 headerFont,
                 footerRows,
                 footerCell,
-                new Font());
+                new FontWrapper());
     }
 
     public TableWrapper(List<List<String>> data,
-            PdfPCell bodyCell,
-            Font bodyFont,
+            CellWrapper bodyCell,
+            FontWrapper bodyFont,
             int headerRows,
-            PdfPCell headerCell,
-            Font headerFont,
+            CellWrapper headerCell,
+            FontWrapper headerFont,
             int footerRows,
-            PdfPCell footerCell,
-            Font footerFont) {
+            CellWrapper footerCell,
+            FontWrapper footerFont) {
         super(data.get(0).size());
         this.data = data;
         this.bodyCell = bodyCell;
@@ -204,18 +202,18 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
     }
 
     public TableWrapper addTextCell(String text) {
-        return addTextCell(text, new PdfPCell(), new Font());
+        return addTextCell(text, new CellWrapper(), new FontWrapper());
     }
 
-    public TableWrapper addTextCell(String text, PdfPCell cell) {
-        return addTextCell(text, cell, new Font());
+    public TableWrapper addTextCell(String text, CellWrapper cell) {
+        return addTextCell(text, cell, new FontWrapper());
     }
 
-    public TableWrapper addTextCell(String text, Font font) {
+    public TableWrapper addTextCell(String text, FontWrapper font) {
         return addTextCell(text, new CellWrapper(), font);
     }
 
-    public TableWrapper addTextCell(String text, PdfPCell cell, Font font) {
+    public TableWrapper addTextCell(String text, CellWrapper cell, FontWrapper font) {
         cell.setPhrase(new Phrase(text, font));
         addCell(cell);
         return this;
@@ -225,23 +223,42 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
         return addTextRow(row, new CellWrapper(), new FontWrapper());
     }
 
-    public TableWrapper addTextRow(List<String> row, PdfPCell cell) {
+    public TableWrapper addTextRow(List<String> row, CellWrapper cell) {
         return addTextRow(row, cell, new FontWrapper());
     }
 
-    public TableWrapper addTextRow(List<String> row, Font font) {
+    public TableWrapper addTextRow(List<String> row, FontWrapper font) {
         return addTextRow(row, new CellWrapper(), font);
     }
 
-    public TableWrapper addTextRow(List<String> row, PdfPCell cell, Font font) {
+    public TableWrapper addTextRow(List<String> row, CellWrapper cell, FontWrapper font) {
         for (String text : row) {
             addTextCell(text, cell, font);
         }
         return this;
     }
 
-    public TableWrapper
-            addTextRow(List<String> rowText, List<PdfPCell> rowCellStyle, List<Font> rowFontStyle) {
+    public TableWrapper addTextRow(List<String> rowText,
+            CellWrapper rowCellStyle,
+            List<FontWrapper> rowFontStyle) {
+        for (int i = 0; i < rowText.size(); i++) {
+            addTextCell(rowText.get(i), rowCellStyle, rowFontStyle.get(i));
+        }
+        return this;
+    }
+
+    public TableWrapper addTextRow(List<String> rowText,
+            List<CellWrapper> rowCellStyle,
+            FontWrapper rowFontStyle) {
+        for (int i = 0; i < rowText.size(); i++) {
+            addTextCell(rowText.get(i), rowCellStyle.get(i), rowFontStyle);
+        }
+        return this;
+    }
+
+    public TableWrapper addTextRow(List<String> rowText,
+            List<CellWrapper> rowCellStyle,
+            List<FontWrapper> rowFontStyle) {
         for (int i = 0; i < rowText.size(); i++) {
             addTextCell(rowText.get(i), rowCellStyle.get(i), rowFontStyle.get(i));
         }
@@ -252,7 +269,7 @@ public class TableWrapper extends PdfPTable implements ElementWrapper {
     public boolean needPageBreak() {
         return needPageBreak;
     }
-    
+
     private void fillTable() {
         final int TABLE_SIZE = data.size();
         final int FOOTER_START = TABLE_SIZE - footerRows;

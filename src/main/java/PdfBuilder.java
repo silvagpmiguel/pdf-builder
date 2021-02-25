@@ -52,7 +52,7 @@ public class PdfBuilder {
     }
 
     public byte[] getPdfData() {
-        return null;
+        return outputStream.toByteArray();
     }
 
     public int getPageNumber() {

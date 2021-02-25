@@ -3,11 +3,11 @@ import java.util.List;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
 
 public class ElementFactory {
-    /* Font Methods */
+    /* FontWrapper Methods */
     public static FontWrapper newFont() {
         return new FontWrapper();
     }
@@ -33,8 +33,8 @@ public class ElementFactory {
         return new PhraseWrapper(text);
     }
 
-    public static PhraseWrapper newPhrase(String text, Font font) {
-        return new PhraseWrapper(text, font);
+    public static PhraseWrapper newPhrase(String text, FontWrapper FontWrapper) {
+        return new PhraseWrapper(text, FontWrapper);
     }
 
     /* Image Methods */
@@ -50,7 +50,7 @@ public class ElementFactory {
         return new ImageWrapper(filename, scalePercent, absoluteX, absoluteY);
     }
 
-    /* PdfPCell Methods */
+    /* CellWrapper Methods */
     public static CellWrapper newCell() {
         return new CellWrapper();
     }
@@ -96,54 +96,54 @@ public class ElementFactory {
         return new TableWrapper(data);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, new Font());
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, CellWrapper headerCell) {
+        return new TableWrapper(data, new CellWrapper(), new FontWrapper(), headerRows, headerCell, new FontWrapper());
     }
 
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, 0,
-                new PdfPCell());
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, CellWrapper headerCell, FontWrapper headerFont) {
+        return new TableWrapper(data, new CellWrapper(), new FontWrapper(), headerRows, headerCell, headerFont, 0,
+                new CellWrapper());
     }
 
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont,
-            int footerRows, PdfPCell footerCell) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows,
-                footerCell, new Font());
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, CellWrapper headerCell, FontWrapper headerFont,
+            int footerRows, CellWrapper footerCell) {
+        return new TableWrapper(data, new CellWrapper(), new FontWrapper(), headerRows, headerCell, headerFont, footerRows,
+                footerCell, new FontWrapper());
     }
 
-    public static TableWrapper newTable(List<List<String>> data, int headerRows, PdfPCell headerCell, Font headerFont,
-            int footerRows, PdfPCell footerCell, Font footerFont) {
-        return new TableWrapper(data, new PdfPCell(), new Font(), headerRows, headerCell, headerFont, footerRows,
-                footerCell, footerFont);
+    public static TableWrapper newTable(List<List<String>> data, int headerRows, CellWrapper headerCell, FontWrapper headerFont,
+            int footerRows, CellWrapper footerCell, FontWrapper footerFontWrapper) {
+        return new TableWrapper(data, new CellWrapper(), new FontWrapper(), headerRows, headerCell, headerFont, footerRows,
+                footerCell, footerFontWrapper);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell) {
         return new TableWrapper(data, bodyCell);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell, Font bodyFont) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont) {
         return new TableWrapper(data, bodyCell, bodyFont);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows,
-            PdfPCell headerCell) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont, int headerRows,
+            CellWrapper headerCell) {
         return new TableWrapper(data, bodyCell, bodyFont, headerRows, headerCell);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows,
-            PdfPCell headerCell, Font headerFont) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont, int headerRows,
+            CellWrapper headerCell, FontWrapper headerFont) {
         return new TableWrapper(data, bodyCell, bodyFont, headerRows, headerCell, headerFont);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows,
-            PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont, int headerRows,
+            CellWrapper headerCell, FontWrapper headerFont, int footerRows, CellWrapper footerCell) {
         return new TableWrapper(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, footerRows, footerCell);
     }
 
-    public static TableWrapper newTable(List<List<String>> data, PdfPCell bodyCell, Font bodyFont, int headerRows,
-            PdfPCell headerCell, Font headerFont, int footerRows, PdfPCell footerCell, Font footerFont) {
+    public static TableWrapper newTable(List<List<String>> data, CellWrapper bodyCell, FontWrapper bodyFont, int headerRows,
+            CellWrapper headerCell, FontWrapper headerFont, int footerRows, CellWrapper footerCell, FontWrapper footerFontWrapper) {
         return new TableWrapper(data, bodyCell, bodyFont, headerRows, headerCell, headerFont, footerRows, footerCell,
-                footerFont);
+                footerFontWrapper);
     }
 
     /* Document Methods */
@@ -155,12 +155,26 @@ public class ElementFactory {
         return new DocumentWrapper(pageSize);
     }
 
-    public static DocumentWrapper newDocument(float marginLeft, float marginRight, float marginTop, float marginBottom) {
-        return new DocumentWrapper(marginLeft, marginRight, marginTop, marginBottom);
+    public static DocumentWrapper newDocument(float marginLeft,
+            float marginRight,
+            float marginTop,
+            float marginBottom) {
+        return new DocumentWrapper(PageSize.A4, marginLeft, marginRight, marginTop, marginBottom);
     }
 
-    public static DocumentWrapper newDocument(Rectangle pageSize, float marginLeft, float marginRight, float marginTop,
+    public static DocumentWrapper newDocument(float... margins) {
+        return new DocumentWrapper(PageSize.A4, margins);
+    }
+
+    public static DocumentWrapper newDocument(Rectangle pageSize,
+            float marginLeft,
+            float marginRight,
+            float marginTop,
             float marginBottom) {
         return new DocumentWrapper(pageSize, marginLeft, marginRight, marginTop, marginBottom);
+    }
+
+    public static DocumentWrapper newDocument(Rectangle pageSize, float... margins) {
+        return new DocumentWrapper(pageSize, margins[0], margins[1], margins[2], margins[3]);
     }
 }
