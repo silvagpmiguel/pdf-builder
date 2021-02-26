@@ -27,7 +27,7 @@ public class PageEvent extends PdfPageEventHelper {
     public void onStartPage(PdfWriter writer, Document document) {
         try {
             pageNumber++;
-            Font font = new FontWrapper().withBoldStyle();
+            FontWrapper font = new FontWrapper().withBoldStyle();
             List<String> firstHeaderRow = Arrays.asList(title,
                     getHeaderPhrase(pageNumber, totalPages));
             TableWrapper firstHeaderTable = ElementFactory.newTable(new float[] { 83, 17 });
