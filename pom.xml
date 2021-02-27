@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.silvagpmiguel</groupId>
     <artifactId>pdf-builder</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -41,7 +41,7 @@
         <connection>scm:git:git://github.com/silvagpmiguel/pdf-builder.git</connection>
         <developerConnection>scm:git:https://github.com/silvagpmiguel/pdf-builder.git</developerConnection>
         <url>https://github.com/silvagpmiguel/pdf-builder.git</url>
-      <tag>HEAD</tag>
+      <tag>pdf-builder-1.1</tag>
   </scm>
 
     <properties>
