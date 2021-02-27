@@ -78,7 +78,7 @@
                 <configuration>
                   <autoVersionSubmodules>true</autoVersionSubmodules>
                   <useReleaseProfile>false</useReleaseProfile>
-                  <releaseProfiles>release</releaseProfiles>
+                  <releaseProfiles>ci-cd</releaseProfiles>
                   <goals>deploy</goals>
                 </configuration>
             </plugin>
