@@ -1,19 +1,18 @@
-name: Manual Release
+name: Manual Release OSSRH
 on:
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+      MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
+      MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+      USER_EMAIL: silva.gp.miguel@gmail.com
+      USER_NAME: silvagpmiguel
     steps:
       - uses: actions/checkout@v2
-
-      - name: Configure Git user
-        run: |
-          git config user.email $USER_EMAIL
-          git config user.name $USER_NAME
-        env:
-          USER_EMAIL: silva.gp.miguel@gmail.com
-          USER_NAME: silvagpmiguel
 
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v1
@@ -22,14 +21,20 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-private-key: MAVEN_GPG_PRIVATE_KEY
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Clean Release
-        run: mvn -B release:clean
+      - name: Configure Git user
+        run: |
+          git config user.email $USER_EMAIL
+          git config user.name $USER_NAME
+
+      - name: Delivery Snapshot
+        run: mvn -B clean deploy -Pci-cd
 
       - name: Prepare Release Candidates
-        run: mvn -B release:prepare
+        run: mvn -B release:clean release:prepare -Pci-cd
 
       - name: Perfom Release
-        run: mvn -B release:perform
+        run: mvn -B release:perform -Pci-cd
+

@@ -6,7 +6,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: MAVEN_GPG_PRIVATE_KEY
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Configure Git user
+        run: |
+          git config user.email $USER_EMAIL
+          git config user.name $USER_NAME
+
       - name: Rollback
         run: mvn release:rollback
       

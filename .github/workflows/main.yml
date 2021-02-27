@@ -1,48 +1,17 @@
-name: CI/CD OSSRH
+name: Java CI
 on:
-# push:
-#   branches: [main]
-  workflow_dispatch:
+  push:
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-strict: false
-
-      - name: Configure Git user
-        run: |
-          git config user.email $USER_EMAIL
-          git config user.name $USER_NAME
-        env:
-          USER_EMAIL: silva.gp.miguel@gmail.com
-          USER_NAME: silvagpmiguel
 
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Deploy with Maven
-        run: mvn -B clean deploy -Pci-cd
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
-      
-      - name: Prepare Release Candidates
-        run: mvn -B release:clean release:prepare
-
-      - name: Perfom Release
-        run: mvn -B release:perform
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
+      - name: Build with tests
+        run: mvn -B clean package
