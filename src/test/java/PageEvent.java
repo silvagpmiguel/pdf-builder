@@ -1,11 +1,12 @@
 import java.util.Arrays;
 import java.util.List;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
-/** https://athena.vilt-group.com/issues/98408 */
 public class PageEvent extends PdfPageEventHelper {
     private Image logo;
     private String title;
