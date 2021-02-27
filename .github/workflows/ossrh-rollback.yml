@@ -1,0 +1,24 @@
+name: Manual Rollback
+on:
+  workflow_dispatch:
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Configure Git user
+        run: |
+          git config user.email $USER_EMAIL
+          git config user.name $USER_NAME
+        env:
+          USER_EMAIL: silva.gp.miguel@gmail.com
+          USER_NAME: silvagpmiguel
+
+      - name: Rollback
+        run: mvn release:rollback
