@@ -37,4 +37,3 @@ jobs:
 
       - name: Perfom Release
         run: mvn -B release:perform -Pci-cd
-
