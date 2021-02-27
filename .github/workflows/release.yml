@@ -1,16 +1,11 @@
-name: CI/CD OSSRH
+name: Manual Release
 on:
-# push:
-#   branches: [main]
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-strict: false
 
       - name: Configure Git user
         run: |
@@ -30,19 +25,11 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Deploy with Maven
-        run: mvn -B clean deploy -Pci-cd
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
-      
+      - name: Clean Release
+        run: mvn -B release:clean
+
       - name: Prepare Release Candidates
-        run: mvn -B release:clean release:prepare
+        run: mvn -B release:prepare
 
       - name: Perfom Release
         run: mvn -B release:perform
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
