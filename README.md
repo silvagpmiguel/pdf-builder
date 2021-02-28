@@ -1,3 +1,3 @@
-# PDF Builder ![CI/CD OSSRH](https://github.com/silvagpmiguel/pdf-builder/actions/workflows/main.yml/badge.svg)
+# PDF Builder ![CI/CD OSSRH](https://github.com/silvagpmiguel/pdf-builder/actions/workflows/main.yml/badge.svg) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.silvagpmiguel/pdf-builder/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.github.silvagpmiguel/pdf-builder)
 
 **Pdf Builder** serves as an extension to [itextpdf5](https://itextpdf.com/en/products/itext-5-legacy) library to facilitate the process of making **PDF** using the **Java** language.
