@@ -1,3 +1,19 @@
+/* 
+ *  Copyright 2021 com.github.silvagpmiguel
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -22,7 +38,6 @@ public class PageTest {
         for (int i = 0; i < 40; i++)
             table.add(row);
         table.add(footer);
-        ImageWrapper logo = ElementFactory.newImage("img/logo.png", 70f);
         String title = "PageEvent with currentPage/totalPages in every pdf page";
         CellWrapper headerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.LIGHT_GRAY)
                 .withHorizontalAlign(Element.ALIGN_CENTER);
@@ -32,7 +47,7 @@ public class PageTest {
         CellWrapper footerStyle = ElementFactory.newCell().withBackgroundColor(BaseColor.CYAN)
                 .withHorizontalAlign(Element.ALIGN_CENTER);
         FontWrapper footerFont = ElementFactory.newFont().withSize(14f);
-        PdfBuilder pdfBuilder = new PdfBuilder(new PageEvent(logo, title))
+        PdfBuilder pdfBuilder = new PdfBuilder(new PageEvent(title))
             .open()
             .addElement(ElementFactory.newTable(table, bodyStyle, bodyFont, 1, headerStyle, headerFont, 1,footerStyle, footerFont))
             .build()
