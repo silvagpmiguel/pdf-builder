@@ -3,6 +3,11 @@ name: Manual Release to OSSRH
 on:
   workflow_dispatch:
 
+env:
+  MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+  MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+  MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -21,10 +26,6 @@ jobs:
 
       - name: Delivery Snapshot
         run: mvn -B clean deploy -Pci-cd
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
 
       - name: Configure Git user
         run: |
@@ -36,10 +37,6 @@ jobs:
 
       - name: Prepare Release Candidates
         run: mvn -B release:clean release:prepare -Pci-cd
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
 
       - name: Perfom Release
         run: mvn -B release:perform -Pci-cd
