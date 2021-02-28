@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Maven Central Repository
+      - name: Set up OSSRH Repository
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
@@ -16,12 +16,19 @@ jobs:
           server-password: OSSRH_PASSWORD
           gpg-private-key: OSSRH_GPG_PRIVKEY
           gpg-passphrase: OSSRH_GPG_PASS
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_GPG_PASS: ${{ secrets.MAVEN_GPG_PASSWORD }}
+          OSSRH_GPG_PRIVKEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
       - name: Configure Git user
         run: |
           git config user.email $USER_EMAIL
           git config user.name $USER_NAME
-
+        env:
+          USER_EMAIL: silva.gp.miguel@gmail.com
+          USER_NAME: silvagpmiguel
       - name: Delivery Snapshot
         run: mvn -B clean deploy -Pci-cd
 
@@ -30,11 +37,3 @@ jobs:
 
       - name: Perfom Release
         run: mvn -B release:perform -Pci-cd
-
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_GPG_PASS: ${{ secrets.MAVEN_GPG_PASSWORD }}
-          OSSRH_GPG_PRIVKEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          USER_EMAIL: silva.gp.miguel@gmail.com
-          USER_NAME: silvagpmiguel
