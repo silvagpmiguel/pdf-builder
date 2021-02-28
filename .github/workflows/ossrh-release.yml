@@ -3,12 +3,6 @@ name: Manual Release to OSSRH
 on:
   workflow_dispatch:
 
-env:
-  MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-  MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-  MAVEN_GPG_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-  MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -20,13 +14,17 @@ jobs:
         with:
           java-version: 1.8
           server-id: ossrh
-          server-username: ${{ env.MAVEN_USERNAME }}
-          server-password: ${{ env.MAVEN_PASSWORD }}
-          gpg-private-key: ${{ env.MAVEN_GPG_KEY }}
-          gpg-passphrase: ${{ env.MAVEN_GPG_PASSPHRASE }}
+          server-username: ${{ secrets.OSSRH_USERNAME }}
+          server-password: ${{ secrets.OSSRH_TOKEN }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSWORD }}
 
       - name: Delivery Snapshot
         run: mvn -B clean deploy -Pci-cd
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSWORD }}
 
       - name: Configure Git user
         run: |
@@ -38,6 +36,10 @@ jobs:
 
       - name: Prepare Release Candidates
         run: mvn -B release:clean release:prepare -Pci-cd
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
       - name: Perfom Release
         run: mvn -B release:perform -Pci-cd
