@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
+    runs-on: ubuntu-latest
     env:
       OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
@@ -10,7 +11,6 @@ jobs:
       OSSRH_GPG_PRIVKEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       USER_EMAIL: silva.gp.miguel@gmail.com
       USER_NAME: silvagpmiguel
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
