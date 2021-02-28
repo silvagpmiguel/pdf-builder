@@ -4,13 +4,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-      OSSRH_GPG_PASS: ${{ secrets.MAVEN_GPG_PASSWORD }}
-      OSSRH_GPG_PRIVKEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-      USER_EMAIL: silva.gp.miguel@gmail.com
-      USER_NAME: silvagpmiguel
     steps:
       - uses: actions/checkout@v2
 
@@ -19,15 +12,15 @@ jobs:
         with:
           java-version: 1.8
           server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-          gpg-private-key: OSSRH_GPG_PRIVKEY
-          gpg-passphrase: OSSRH_GPG_PASS
+          server-username: env.OSSRH_USERNAME
+          server-password: env.OSSRH_PASSWORD
+          gpg-private-key: env.OSSRH_GPG_PRIVKEY
+          gpg-passphrase: env.OSSRH_GPG_PASS
 
       - name: Configure Git user
         run: |
-          git config user.email $USER_EMAIL
-          git config user.name $USER_NAME
+          git config user.email env.USER_EMAIL
+          git config user.name env.USER_NAME
 
       - name: Delivery Snapshot
         run: mvn -B clean deploy -Pci-cd
@@ -37,3 +30,10 @@ jobs:
 
       - name: Perfom Release
         run: mvn -B release:perform -Pci-cd
+    env:
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+      OSSRH_GPG_PASS: ${{ secrets.MAVEN_GPG_PASSWORD }}
+      OSSRH_GPG_PRIVKEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+      USER_EMAIL: silva.gp.miguel@gmail.com
+      USER_NAME: silvagpmiguel
