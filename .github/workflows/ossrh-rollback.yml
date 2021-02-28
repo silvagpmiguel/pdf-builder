@@ -2,7 +2,7 @@ name: Manual Rollback
 on:
   workflow_dispatch:
 jobs:
-  build:
+  rollback:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
