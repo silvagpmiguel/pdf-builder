@@ -29,6 +29,7 @@ jobs:
         env:
           USER_EMAIL: silva.gp.miguel@gmail.com
           USER_NAME: silvagpmiguel
+          
       - name: Delivery Snapshot
         run: mvn -B clean deploy -Pci-cd
 
